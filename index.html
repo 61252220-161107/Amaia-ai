@@ -4,14 +4,462 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amaya AI - Beauty Tech</title>
-    <!-- Fuente Aesthetic de Google -->
+    <!-- Fuente Poppins (Aesthetic y Limpia) -->
     <link href="https://googleapis.com" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- STYLES CSS (La Ropa de tu Web) -->
+    <style>
+      :root {
+        --bg-pantalla: #ecdffa; 
+        --blanco-tarjeta: rgba(255, 255, 255, 0.85); 
+        --morado-principal: #8b5cf6; 
+        --morado-suave: #ebdffd;
+        --borde-curva: 24px; 
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--bg-pantalla);
+        font-family: 'Poppins', sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      /* BARRA SUPERIOR */
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+      }
+
+      .logo {
+        font-size: 22px;
+        font-weight: 600;
+        color: #4a3b63;
+      }
+
+      .nav-links button {
+        background: white;
+        border: none;
+        padding: 8px 18px;
+        margin: 0 4px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: inherit;
+        color: #666;
+        font-size: 13px;
+      }
+
+      .nav-links button.active {
+        background: var(--morado-suave);
+        color: var(--morado-principal);
+        font-weight: 600;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #4a3b63;
+        font-size: 13px;
+      }
+
+      .mini-avatar {
+        width: 32px;
+        height: 32px;
+        background: #c0b2f0;
+        border-radius: 50%;
+      }
+
+      /* ESTRUCTURA DE COLUMNAS */
+      .main-layout {
+        display: flex;
+        flex: 1;
+        gap: 16px;
+        padding: 0 20px 20px 20px;
+        height: calc(100vh - 80px);
+      }
+
+      /* COLUMNA 1 (IZQUIERDA) */
+      .sidebar-custom {
+        width: 280px;
+        background: var(--blanco-tarjeta);
+        border-radius: var(--borde-curva);
+        padding: 20px;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .sidebar-custom.collapsed {
+        width: 0;
+        padding: 0;
+        margin: 0;
+        opacity: 0;
+      }
+
+      .section-title {
+        font-size: 11px;
+        letter-spacing: 1px;
+        color: #8b7fa3;
+        margin-bottom: 5px;
+      }
+
+      .config-section {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .config-section label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: #4a3b63;
+        margin-bottom: 2px;
+      }
+
+      .sub-label {
+        font-size: 11px;
+        color: #999;
+      }
+
+      .color-picker-circles {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .circle {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+
+      .circle.active {
+        border-color: var(--morado-principal);
+      }
+
+      .bg-thumbs {
+        display: flex;
+        gap: 8px;
+      }
+
+      .thumb {
+        width: 45px;
+        height: 45px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .icon-selectors {
+        display: flex;
+        gap: 5px;
+      }
+
+      .icon-selectors button {
+        width: 32px;
+        height: 32px;
+        background: white;
+        border: 1px solid #e1d5f5;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .select-box {
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 13px;
+        border: 1px solid #e1d5f5;
+        color: #555;
+      }
+
+      .btn-action {
+        width: 100%;
+        background: white;
+        border: 1px dashed var(--morado-principal);
+        padding: 8px;
+        border-radius: 10px;
+        color: var(--morado-principal);
+        font-family: inherit;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      /* COLUMNA 2 (CHAT CENTRAL) */
+      .chat-container {
+        flex: 1;
+        position: relative;
+        background: white;
+        border-radius: var(--borde-curva);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .toggle-arrow {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--morado-principal);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
+      }
+
+      .chat-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px;
+        border-bottom: 1px solid #f6f2ff;
+      }
+
+      .chat-avatar {
+        width: 45px;
+        height: 45px;
+        background: #c0b2f0;
+        border-radius: 50%;
+      }
+
+      .chat-header-info h4 {
+        color: #4a3b63;
+        font-size: 16px;
+      }
+
+      .status {
+        font-size: 11px;
+        color: #999;
+      }
+
+      .online {
+        color: #22c55e;
+      }
+
+      .chat-messages {
+        flex: 1;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(rgba(245, 240, 255, 0.4), transparent);
+        overflow-y: auto;
+      }
+
+      .msg {
+        padding: 14px 18px;
+        border-radius: 20px;
+        max-width: 65%;
+        margin-bottom: 20px;
+        font-size: 14px;
+        position: relative;
+      }
+
+      .msg-ia {
+        background: var(--morado-suave);
+        color: #4a3b63;
+        align-self: flex-start;
+        border-top-left-radius: 4px;
+      }
+
+      .msg-user {
+        background: var(--morado-principal);
+        color: white;
+        align-self: flex-end;
+        border-top-right-radius: 4px;
+      }
+
+      .msg-time {
+        display: block;
+        font-size: 10px;
+        margin-top: 5px;
+        opacity: 0.6;
+        text-align: right;
+      }
+
+      .music-widget {
+        background: var(--blanco-tarjeta);
+        border: 1px solid var(--morado-suave);
+        padding: 10px;
+        border-radius: 14px;
+        display: inline-flex;
+        gap: 10px;
+        align-self: flex-start;
+        margin-top: -5px;
+      }
+
+      .music-widget button {
+        background: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        cursor: pointer;
+        color: #555;
+      }
+
+      .chat-input-bar {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border-top: 1px solid #f6f2ff;
+        gap: 15px;
+      }
+
+      .input-icons {
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        gap: 10px;
+      }
+
+      .chat-input-bar input {
+        flex: 1;
+        border: none;
+        background: #f7f5fc;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-family: inherit;
+        outline: none;
+      }
+
+      .send-btn {
+        background: var(--morado-principal);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      /* COLUMNA 3 (DERECHA) */
+      .sidebar-options {
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .card-box {
+        background: var(--blanco-tarjeta);
+        border-radius: var(--borde-curva);
+        padding: 20px;
+      }
+
+      .flex-expand {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .box-title {
+        font-size: 11px;
+        letter-spacing: 1px;
+        color: #8b7fa3;
+        margin-bottom: 12px;
+      }
+
+      .prompt-item {
+        background: white;
+        padding: 12px 15px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        color: #4a3b63;
+        cursor: pointer;
+      }
+
+      .arrow-right {
+        color: #ccc;
+      }
+
+      .btn-add-prompt {
+        width: 100%;
+        background: transparent;
+        border: 1px dashed #b3a6cc;
+        padding: 10px;
+        border-radius: 12px;
+        color: #7b6d9a;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .grid-esteticos {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .card-estetico {
+        background: white;
+        padding: 8px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 11px;
+        color: #555;
+        cursor: pointer;
+      }
+
+      .img-placeholder {
+        height: 65px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+      }
+
+      .btn-download {
+        background: var(--morado-principal);
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: var(--borde-curva);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.2);
+      }
+
+      /* RESPONSIVE PARA CELULARES */
+      @media (max-width: 900px) {
+        .sidebar-custom, .sidebar-options {
+          display: none;
+        }
+        .toggle-arrow {
+          display: none;
+        }
+      }
+    </style>
 </head>
+
 <body>
 
   <div class="interface-wrapper">
-    <!-- BARRA SUPERIOR -->
+    
+    <!-- BARRA SUPERIOR (Navbar) -->
     <header class="top-nav">
       <div class="logo">Amaya* AI</div>
       <nav class="nav-links">
@@ -21,37 +469,166 @@
         <button>🧬 Mundos Estéticos</button>
       </nav>
       <div class="user-profile">
-        <span class="time">10:42 AM</span>
+        <span class="time">10:42 AM ☀️</span>
+        <div class="mini-avatar"></div>
       </div>
     </header>
 
     <!-- CONTENEDOR DE 3 COLUMNAS -->
     <div class="main-layout">
       
-      <!-- COLUMNA 1: PERSONALIZACIÓN -->
+      <!-- COLUMNA 1: PERSONALIZACIÓN (Izquierda) -->
       <aside class="sidebar-custom" id="leftPanel">
-        <h3>🎛️ PERSONALIZACIÓN</h3>
-        <p>Apariencia, Colores y Favicons</p>
+        <h3 class="section-title">🎛️ PERSONALIZACIÓN</h3>
+        
+        <div class="config-section">
+          <label>Apariencia</label>
+          <span class="sub-label">Colores</span>
+          <div class="color-picker-circles">
+            <span style="background: #e1d5f5;" class="circle active"></span>
+            <span style="background: #b3c5f5;" class="circle"></span>
+            <span style="background: #f5c5d9;" class="circle"></span>
+            <span style="background: #4a3b63;" class="circle"></span>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <label>Fondo</label>
+          <div class="bg-thumbs">
+            <div class="thumb" style="background: linear-gradient(#e5dbf7, #f7efff);"></div>
+            <div class="thumb" style="background: #b3c5f5;"></div>
+            <div class="thumb" style="background: #1e1233;"></div>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <label>Íconos</label>
+          <div class="icon-selectors">
+            <button class="active">💬</button>
+            <button>⭐</button>
+            <button>💜</button>
+            <button>🏠</button>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <label>Tipografía</label>
+          <div class="select-box">Aa &nbsp; Poppins</div>
+        </div>
+
+        <div class="config-section">
+          <label>Perfil de Amaya</label>
+          <button class="btn-action">Cambiar foto 📷</button>
+        </div>
+
+        <div class="config-section">
+          <label>Favicon</label>
+          <button class="btn-action">Cambiar favicon 🌍</button>
+        </div>
       </aside>
 
-      <!-- COLUMNA 2: CHAT CENTRAL -->
+      <!-- COLUMNA 2: EL CHAT CENTRAL -->
       <main class="chat-container">
+        <!-- LA FLECHITA MÁGICA DE TU DISEÑO -->
         <button class="toggle-arrow" onclick="toggleLeftPanel()" id="arrowBtn">◀</button>
-        <div class="chat-header"><h4>Amaya AI</h4></div>
+        
+        <div class="chat-header">
+          <div class="chat-avatar"></div>
+          <div class="chat-header-info">
+            <h4>Amaya</h4>
+            <span class="status">Tu asistente personal • <span class="online">en línea</span></span>
+          </div>
+        </div>
+
         <div class="chat-messages">
-          <div class="msg">¡Hola! Diseñemos tu interfaz ideal.</div>
+          <div class="msg msg-ia">
+            <strong>¡Hola! Soy Amaya 💜</strong>
+            <p>¿En qué puedo ayudarte hoy?</p>
+            <span class="msg-time">10:42 AM</span>
+          </div>
+          
+          <div class="msg msg-user">
+            <p>Quiero diseñar mi app ideal ✨</p>
+            <span class="msg-time">10:42 AM ✓✓</span>
+          </div>
+          
+          <!-- Widget flotante de Playlist -->
+          <div class="music-widget">
+            <button class="btn-playlist">🎵 Playlist</button>
+            <button class="btn-add-music">➕ Añade tu música</button>
+          </div>
+        </div>
+
+        <div class="chat-input-bar">
+          <div class="input-icons">🖼️ 📷 🎙️</div>
+          <input type="text" placeholder="Escribe tu mensaje...">
+          <button class="send-btn">➔</button>
         </div>
       </main>
 
-      <!-- COLUMNA 3: OPCIONES Y DESCARGA -->
+      <!-- COLUMNA 3: PROMPTS Y ESTÉTICOS (Derecha) -->
       <aside class="sidebar-options">
-        <h4>PROMPTS & ESTÉTICOS</h4>
-        <button class="btn-download">Descargar App Personalizada</button>
+        
+        <div class="card-box">
+          <h4 class="box-title">PROMPTS</h4>
+          <div class="prompt-item">🪄 1. Creativo <span class="arrow-right">›</span></div>
+          <div class="prompt-item">📊 2. Analítico <span class="arrow-right">›</span></div>
+          <div class="prompt-item">🛠️ 3. Asistente <span class="arrow-right">›</span></div>
+          <button class="btn-add-prompt">+ Crea tu propio prompt</button>
+        </div>
+
+        <div class="card-box flex-expand">
+          <h4 class="box-title">ESTÉTICOS</h4>
+          <div class="grid-esteticos">
+            <div class="card-estetico">
+              <div class="img-placeholder" style="background: #e3d4c1;"></div>
+              <span>Cottagecore</span>
+            </div>
+            <div class="card-estetico">
+              <div class="img-placeholder" style="background: #120e2e;"></div>
+              <span>Cyber</span>
+            </div>
+            <div class="card-estetico">
+              <div class="img-placeholder" style="background: #f7c5dc;"></div>
+              <span>Y2K</span>
+            </div>
+            <div class="card-estetico">
+              <div class="img-placeholder" style="background: #ffffff; border: 1px solid #ddd;"></div>
+              <span>Minimal</span>
+            </div>
+            <div class="card-estetico">
+              <div class="img-placeholder" style="background: #d4e3fc;"></div>
+              <span>Dreamy</span>
+            </div>
+            <div class="card-estetico">
+              <div class="img-placeholder" style="background: #8c7662;"></div>
+              <span>Vintage</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-download">📥 Descargar App Personalizada</button>
       </aside>
 
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- JAVASCRIPT (El Cerebro de la Flecha) -->
+  <script>
+    function toggleLeftPanel() {
+      const panel = document.getElementById('leftPanel');
+      const arrow = document.getElementById('arrowBtn');
+      
+      // Agrega o quita la clase para encoger el panel izquierdo
+      panel.classList.toggle('collapsed');
+      
+      // Cambia el sentido de la flechita según esté abierto o cerrado
+      if (panel.classList.contains('collapsed')) {
+        arrow.innerText = "▶"; // Apunta a la derecha si está oculto
+      } else {
+        arrow.innerText = "◀"; // Apunta a la izquierda si está visible
+      }
+    }
+  </script>
 </body>
 </html>
