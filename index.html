@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amaya AI - Beauty Tech</title>
+    <!-- Fuente Aesthetic de Google -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="interface-wrapper">
+    <!-- BARRA SUPERIOR -->
+    <header class="top-nav">
+      <div class="logo">Amaya* AI</div>
+      <nav class="nav-links">
+        <button class="active">💬 Chat</button>
+        <button>🧭 Explorar</button>
+        <button>🧠 Conocimiento</button>
+        <button>🧬 Mundos Estéticos</button>
+      </nav>
+      <div class="user-profile">
+        <span class="time">10:42 AM</span>
+      </div>
+    </header>
+
+    <!-- CONTENEDOR DE 3 COLUMNAS -->
+    <div class="main-layout">
+      
+      <!-- COLUMNA 1: PERSONALIZACIÓN -->
+      <aside class="sidebar-custom" id="leftPanel">
+        <h3>🎛️ PERSONALIZACIÓN</h3>
+        <p>Apariencia, Colores y Favicons</p>
+      </aside>
+
+      <!-- COLUMNA 2: CHAT CENTRAL -->
+      <main class="chat-container">
+        <button class="toggle-arrow" onclick="toggleLeftPanel()" id="arrowBtn">◀</button>
+        <div class="chat-header"><h4>Amaya AI</h4></div>
+        <div class="chat-messages">
+          <div class="msg">¡Hola! Diseñemos tu interfaz ideal.</div>
+        </div>
+      </main>
+
+      <!-- COLUMNA 3: OPCIONES Y DESCARGA -->
+      <aside class="sidebar-options">
+        <h4>PROMPTS & ESTÉTICOS</h4>
+        <button class="btn-download">Descargar App Personalizada</button>
+      </aside>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
